@@ -12,8 +12,18 @@ const oldPointStructure = {
   10: ['Q', 'Z']
 };
 
+const simplePointStructure = {
+  1: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+};
+
+const vowelPointStructure = {
+  1: ['B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z'],
+  3: ['A', 'E', 'I', 'O', 'U']
+};
+
 function oldScrabbleScorer(word) {
 	word = word.toUpperCase();
+  // console.log(word); //
 	let letterPoints = "";
  
 	for (let i = 0; i < word.length; i++) {
@@ -26,19 +36,69 @@ function oldScrabbleScorer(word) {
  
 	  }
 	}
+  console.log(letterPoints); //
 	return letterPoints;
  }
 
+function simpleScrabbleScorer(anotherWord) {
+  anotherWord = anotherWord.toUpperCase();
+  //console.log(anotherWord)
+  let simpleLetterPoints = "";
+
+  for (let j = 0; j < anotherWord.length; j++) {
+
+    for (const pointValue in simplePointStructure) {
+
+      if (simplePointStructure[pointValue].includes(anotherWord[j])) {
+        simpleLetterPoints += `Points for '${anotherWord[j]}': ${pointValue}\n`
+      }
+    }
+  }
+  console.log(simpleLetterPoints); //
+	return simpleLetterPoints;
+ }  
+
+function vowelScrabbleScorer(vowelsInWord) {
+  vowelsInWord = vowelsInWord.toUpperCase();
+  // console.log(vowelsInWord);
+  let vowelLetterPoints = "";
+
+  for(let k = 0; k < vowelsInWord.length; k++) {
+
+    for (const pointValue in vowelPointStructure) {
+
+      if (vowelPointStructure[pointValue].includes(vowelsInWord[k])) {
+        vowelLetterPoints += `Points for '${vowelsInWord[k]}': ${pointValue}\n`
+      }
+    }
+  }
+  console.log(vowelLetterPoints); //
+	return vowelLetterPoints;  
+}
 // your job is to finish writing these functions and variables that we've named //
 // don't change the names or your program won't work as expected. //
 
+// A) Initial Prompt - 1. Modify the provided initialPrompt() function to prompt the user to enter a word to score.
+
 function initialPrompt() {
-   console.log("Let's play some scrabble! Enter a word:");
-};
+   let word = input.question("Let's play some scrabble! Enter a word:");
+   return oldScrabbleScorer(word);
+}; 
 
-let simpleScore;
+// B.1. - Define a function that takes a word as a parameter and returns a numerical score. Each letter within the word is worth 1 point.
+function simpleScore() {
+  let anotherWord = input.question("Let's play some scrabble with a simple score system! Enter a word:");
+  return simpleScrabbleScorer(anotherWord);
+}
 
-let vowelBonusScore;
+// let simpleScore; -> ORIGINAL LINE IN CODE
+
+// B.2. - Define a function that takes a word as a parameter and returns a score. Each vowel within the word is worth 3 points, and each consonant is worth 1 point.
+function vowelBonusScore() {
+  let vowelsInWord = input.question("Let's play some scrabble with a bonus vowel score system! Enter a word:");
+  return vowelScrabbleScorer(vowelsInWord);
+}
+//let vowelBonusScore; -> ORIGINAL LINE IN CODE
 
 let scrabbleScore;
 
@@ -52,7 +112,8 @@ let newPointStructure;
 
 function runProgram() {
    initialPrompt();
-   
+   simpleScore();
+   vowelBonusScore();
 }
 
 // Don't write any code below this line //
