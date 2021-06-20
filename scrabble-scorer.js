@@ -23,7 +23,7 @@ const vowelPointStructure = {
 
 function oldScrabbleScorer(word) {
 	word = word.toUpperCase();
-  // console.log(word); //
+  let scoreTotal = 0;
 	let letterPoints = "";
  
 	for (let i = 0; i < word.length; i++) {
@@ -32,18 +32,19 @@ function oldScrabbleScorer(word) {
  
 		 if (oldPointStructure[pointValue].includes(word[i])) {
 			letterPoints += `Points for '${word[i]}': ${pointValue}\n`
+      scoreTotal = scoreTotal + Number(pointValue);      
 		 }
  
 	  }
 	}
-  console.log(letterPoints); //
+  console.log(letterPoints);
+  console.log(`Total Points for '${word}': ${scoreTotal}`)    
 	return letterPoints;
  }
 
 function simpleScrabbleScorer(anotherWord) {
-  //anotherWord = "";
   anotherWord = anotherWord.toUpperCase();
-  //console.log(anotherWord);
+  let scoreTotal = 0;
   let simpleLetterPoints = "";
 
   for (let j = 0; j < anotherWord.length; j++) {
@@ -52,17 +53,19 @@ function simpleScrabbleScorer(anotherWord) {
 
       if (simplePointStructure[pointValue].includes(anotherWord[j])) {
         simpleLetterPoints += `Points for '${anotherWord[j]}': ${pointValue}\n`
+        scoreTotal = scoreTotal + Number(pointValue);
       }
     }
   }
-  console.log(simpleLetterPoints); //
+  console.log(simpleLetterPoints);
+  console.log(`Total Points for '${anotherWord}': ${scoreTotal}`)  
 	return simpleLetterPoints;
  }
 
 function vowelScrabbleScorer(vowelsInWord) {
   vowelsInWord = vowelsInWord.toUpperCase();
-  // console.log(vowelsInWord);
   let vowelLetterPoints = "";
+  let scoreTotal = 0;
 
   for(let k = 0; k < vowelsInWord.length; k++) {
 
@@ -70,48 +73,41 @@ function vowelScrabbleScorer(vowelsInWord) {
 
       if (vowelPointStructure[pointValue].includes(vowelsInWord[k])) {
         vowelLetterPoints += `Points for '${vowelsInWord[k]}': ${pointValue}\n`
+        scoreTotal = scoreTotal + Number(pointValue);
       }
     }
   }
   console.log(vowelLetterPoints); //
+  console.log(`Total Points for '${vowelsInWord}': ${scoreTotal}`)
 	return vowelLetterPoints;  
 }
-// your job is to finish writing these functions and variables that we've named //
 // don't change the names or your program won't work as expected. //
 
 // A) Initial Prompt - 1. Modify the provided initialPrompt() function to prompt the user to enter a word to score.
 
 function initialPrompt() {
-   let word = input.question("Let's play some scrabble! \n\nEnter a word to score: ");
-   return oldScrabbleScorer(word);
-//   return word;
+   let word = input.question("Let's play some Scrabble! \n\nEnter a word to score: ");
+//   return oldScrabbleScorer(word);
+   return word;
 }; 
+
+let userWord = initialPrompt();
 
 // B.1. - Define a function that takes a word as a parameter and returns a numerical score. Each letter within the word is worth 1 point.
 function simpleScore() {
-  //let anotherWord = initialPrompt(word);
-  let anotherWord = input.question("Let's play some scrabble with a simple score system! Enter a word: ");
-  return simpleScrabbleScorer(anotherWord);
+  return simpleScrabbleScorer(userWord);
 }
-
 // let simpleScore; -> ORIGINAL LINE IN CODE
 
 // B.2. - Define a function that takes a word as a parameter and returns a score. Each vowel within the word is worth 3 points, and each consonant is worth 1 point.
 function vowelBonusScore() {
-  let vowelsInWord = input.question("Let's play some scrabble with a bonus vowel score system! Enter a word: ");
-  return vowelScrabbleScorer(vowelsInWord);
+  return vowelScrabbleScorer(userWord);
 }
 //let vowelBonusScore; -> ORIGINAL LINE IN CODE
 
 function scrabbleScore() {
-   let word = input.question("Let's play some Scrabble with the original scoring algorithm! Enter a word: ");
-   return oldScrabbleScorer(word);
+  return oldScrabbleScorer(userWord);
 }; 
-
-  initialPrompt();
-//  simpleScore();
-//  vowelBonusScore();
-//  scrabbleScore();
 
 // let scrabbleScore; -> ORIGINAL LINE IN CODE
 
@@ -120,12 +116,11 @@ function scorerPrompt(yourChoice) {
   console.log("Which scoring algorithm would you like to use?\n\n0 - Simple:  One point per character\n1 - Vowel Bonus:  Vowels are worth 3 points\n2 - Scrabble:  Uses Scrabble point system\n");
   yourChoice = input.question("Please choose 0, 1 or 2: ");
   if (yourChoice == 0) {
-    //console.log("Zero.");
-    simpleScore();
+    simpleScore(userWord);
   } else if (yourChoice == 1) {
     vowelBonusScore();
   } else if (yourChoice == 2); {
-    initialPrompt(); // original Scrabble scorer
+    scrabbleScore(); 
   }
 return yourChoice;
 };
@@ -152,43 +147,13 @@ const scoringAlgorithms = [
   }
 ];
 
- console.log("algorithm name: ", scoringAlgorithms[0].name);
-
+console.log("algorithm name: ", scoringAlgorithms[0].name);
 
 // Finish writing scorerPrompt() so that the user can select which scoring algorithm to use when the program scores their word. Use the selected algorithm to determine the score for the word:
 // If the user enters 0, have the program output a score using the simple scorer.
 // If the user enters 1, use the vowel bonus scoring function.
 // If the user enters 2, use the Scrabble scoring option.
 // scorerPrompt() should return the object the user has selected.
-
-/*
-function scorerPrompt() {
-  console.log("Let's play some Scrabble! ");
-  console.log("/n");
-  initialPrompt();
-  let userChoices = input.question(Number("Enter 0, 1, or 2: ")); // change user input to Number type later
-  if (userChoices === 0) {
-    // Simple scoring
-    //initialPrompt();
-    // console.log(initialPrompt());
-    console.log("algorithm name: ", scoringAlgorithms[0].name);
-    console.log("scorerFunction result: ", scoringAlgorithms[0].scorerFunction("JavaScript"));
-
-  } else if (userChoices === 1) {
-    // Bonus vowels scoring
-    vowelBonusScore();
-    console.log("algorithm name: ", scoringAlgorithms[1].name);
-    console.log("scorerFunction result: ", scoringAlgorithms[1].scorerFunction("JavaScript"));
-
-  } else (userChoices === 2); {
-    // Scrabble
-    simpleScore();
-    console.log("algorithm name: ", scoringAlgorithms[2].name);
-    console.log("scorerFunction result: ", scoringAlgorithms[2].scorerFunction("JavaScript"));
-  } 
-}
-
-*/
 
 function transform() {};
 
