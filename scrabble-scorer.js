@@ -41,8 +41,9 @@ function oldScrabbleScorer(word) {
  }
 
 function simpleScrabbleScorer(anotherWord) {
+  //anotherWord = "";
   anotherWord = anotherWord.toUpperCase();
-  //console.log(anotherWord)
+  //console.log(anotherWord);
   let simpleLetterPoints = "";
 
   for (let j = 0; j < anotherWord.length; j++) {
@@ -56,7 +57,7 @@ function simpleScrabbleScorer(anotherWord) {
   }
   console.log(simpleLetterPoints); //
 	return simpleLetterPoints;
- }  
+ }
 
 function vowelScrabbleScorer(vowelsInWord) {
   vowelsInWord = vowelsInWord.toUpperCase();
@@ -81,13 +82,15 @@ function vowelScrabbleScorer(vowelsInWord) {
 // A) Initial Prompt - 1. Modify the provided initialPrompt() function to prompt the user to enter a word to score.
 
 function initialPrompt() {
-   let word = input.question("Let's play some scrabble! Enter a word:");
+   let word = input.question("Let's play some scrabble! \n\nEnter a word to score: ");
    return oldScrabbleScorer(word);
+//   return word;
 }; 
 
 // B.1. - Define a function that takes a word as a parameter and returns a numerical score. Each letter within the word is worth 1 point.
 function simpleScore() {
-  let anotherWord = input.question("Let's play some scrabble with a simple score system! Enter a word:");
+  //let anotherWord = initialPrompt(word);
+  let anotherWord = input.question("Let's play some scrabble with a simple score system! Enter a word: ");
   return simpleScrabbleScorer(anotherWord);
 }
 
@@ -95,48 +98,110 @@ function simpleScore() {
 
 // B.2. - Define a function that takes a word as a parameter and returns a score. Each vowel within the word is worth 3 points, and each consonant is worth 1 point.
 function vowelBonusScore() {
-  let vowelsInWord = input.question("Let's play some scrabble with a bonus vowel score system! Enter a word:");
+  let vowelsInWord = input.question("Let's play some scrabble with a bonus vowel score system! Enter a word: ");
   return vowelScrabbleScorer(vowelsInWord);
 }
 //let vowelBonusScore; -> ORIGINAL LINE IN CODE
 
-let scrabbleScore;
+function scrabbleScore() {
+   let word = input.question("Let's play some Scrabble with the original scoring algorithm! Enter a word: ");
+   return oldScrabbleScorer(word);
+}; 
+
+  initialPrompt();
+//  simpleScore();
+//  vowelBonusScore();
+//  scrabbleScore();
+
+// let scrabbleScore; -> ORIGINAL LINE IN CODE
+
+// test between here
+function scorerPrompt(yourChoice) {
+  console.log("Which scoring algorithm would you like to use?\n\n0 - Simple:  One point per character\n1 - Vowel Bonus:  Vowels are worth 3 points\n2 - Scrabble:  Uses Scrabble point system\n");
+  yourChoice = input.question("Please choose 0, 1 or 2: ");
+  if (yourChoice == 0) {
+    //console.log("Zero.");
+    simpleScore();
+  } else if (yourChoice == 1) {
+    vowelBonusScore();
+  } else if (yourChoice == 2); {
+    initialPrompt(); // original Scrabble scorer
+  }
+return yourChoice;
+};
+
+console.log("Choose your poison.", scorerPrompt());
+// test ending here
 
 // Finish writing the scoringAlgorithms array. It should be populated with three objects, one for each of the three scoring options. Each object should contain three keys: name, description, and scorerFunction.
 const scoringAlgorithms = [
   {
     name: "Simple Score",
     description: "Each letter is worth 1 point.",
-    scorerFunction: simpleScrabbleScorer()
-  },
+    scorerFunction: simpleScrabbleScorer(),
+}, 
   {
     name: "Bonus Vowels",
     description: "Vowels are 3 pts, consonants are 1 pt.",
-    scorerFunction: vowelScrabbleScorer()
-  },
+    scorerFunction: vowelScrabbleScorer(),
+},
   {
     name: "Scrabble",
     description: "The traditional scoring algorithm.",
-    scorerFunction: oldScrabbleScorer()
+    scorerFunction: oldScrabbleScorer(),
   }
 ];
+
+ console.log("algorithm name: ", scoringAlgorithms[0].name);
+
 
 // Finish writing scorerPrompt() so that the user can select which scoring algorithm to use when the program scores their word. Use the selected algorithm to determine the score for the word:
 // If the user enters 0, have the program output a score using the simple scorer.
 // If the user enters 1, use the vowel bonus scoring function.
 // If the user enters 2, use the Scrabble scoring option.
 // scorerPrompt() should return the object the user has selected.
-function scorerPrompt() {}
+
+/*
+function scorerPrompt() {
+  console.log("Let's play some Scrabble! ");
+  console.log("/n");
+  initialPrompt();
+  let userChoices = input.question(Number("Enter 0, 1, or 2: ")); // change user input to Number type later
+  if (userChoices === 0) {
+    // Simple scoring
+    //initialPrompt();
+    // console.log(initialPrompt());
+    console.log("algorithm name: ", scoringAlgorithms[0].name);
+    console.log("scorerFunction result: ", scoringAlgorithms[0].scorerFunction("JavaScript"));
+
+  } else if (userChoices === 1) {
+    // Bonus vowels scoring
+    vowelBonusScore();
+    console.log("algorithm name: ", scoringAlgorithms[1].name);
+    console.log("scorerFunction result: ", scoringAlgorithms[1].scorerFunction("JavaScript"));
+
+  } else (userChoices === 2); {
+    // Scrabble
+    simpleScore();
+    console.log("algorithm name: ", scoringAlgorithms[2].name);
+    console.log("scorerFunction result: ", scoringAlgorithms[2].scorerFunction("JavaScript"));
+  } 
+}
+
+*/
 
 function transform() {};
 
 let newPointStructure;
 
+/*
 function runProgram() {
-   initialPrompt();
-   simpleScore();
-   vowelBonusScore();
+//  scorerPrompt();
+  initialPrompt();
+  simpleScore();
+  vowelBonusScore();
 }
+*/
 
 // Don't write any code below this line //
 // And don't change these or your program will not run as expected //
@@ -152,4 +217,3 @@ module.exports = {
 	runProgram: runProgram,
 	scorerPrompt: scorerPrompt
 };
-
