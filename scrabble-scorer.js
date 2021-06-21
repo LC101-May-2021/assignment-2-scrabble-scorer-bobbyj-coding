@@ -77,7 +77,7 @@ function vowelScrabbleScorer(vowelsInWord) {
       }
     }
   }
-  console.log(vowelLetterPoints); //
+  console.log(vowelLetterPoints);
   console.log(`Total Points for '${vowelsInWord}': ${scoreTotal}`)
 	return vowelLetterPoints;  
 }
@@ -115,17 +115,24 @@ function scrabbleScore() {
 function scorerPrompt(yourChoice) {
   console.log("Which scoring algorithm would you like to use?\n\n0 - Simple:  One point per character\n1 - Vowel Bonus:  Vowels are worth 3 points\n2 - Scrabble:  Uses Scrabble point system\n");
   yourChoice = input.question("Please choose 0, 1 or 2: ");
-  if (yourChoice == 0) {
-    simpleScore(userWord);
-  } else if (yourChoice == 1) {
+  if (yourChoice == "0") {
+    simpleScore();
+    console.log("\n");
+    return yourChoice;
+  } else if (yourChoice == "1") {
     vowelBonusScore();
-  } else if (yourChoice == 2); {
-    scrabbleScore(); 
-  }
-return yourChoice;
+    console.log("\n");
+    return yourChoice;
+  } else if (yourChoice == "2"); {
+    scrabbleScore();
+    console.log("\n");
+    return yourChoice; 
+  } //elseif   (yourChoice != "0" && yourChoice != "1" && yourChoice != "2"); {
+    //console.log("Please try again.\n");
+    //initialPrompt(); 
 };
 
-console.log("Choose your poison.", scorerPrompt());
+console.log("Pick your poison.", scorerPrompt());
 // test ending here
 
 // Finish writing the scoringAlgorithms array. It should be populated with three objects, one for each of the three scoring options. Each object should contain three keys: name, description, and scorerFunction.
@@ -147,7 +154,7 @@ const scoringAlgorithms = [
   }
 ];
 
-console.log("algorithm name: ", scoringAlgorithms[0].name);
+//console.log("algorithm name: ", scoringAlgorithms[0].name);
 
 // Finish writing scorerPrompt() so that the user can select which scoring algorithm to use when the program scores their word. Use the selected algorithm to determine the score for the word:
 // If the user enters 0, have the program output a score using the simple scorer.
@@ -155,10 +162,35 @@ console.log("algorithm name: ", scoringAlgorithms[0].name);
 // If the user enters 2, use the Scrabble scoring option.
 // scorerPrompt() should return the object the user has selected.
 
-function transform() {};
+// C. 1. Write the rest of the transform() function. It will need to take an object as a parameter - specifically the oldPointStructure object. Calling transform(oldPointStructure) will return an object with lowercase letters as keys. The value for each key will be the points assigned to that letter.
+function transform(anObject) {
+  let newPets = {};
+  for(let values in anObject){
+    for(let i=0; i < anObject[values].length; i++) {
+      newPets[anObject[values][i]] = values;
+    }
+  }
+  return (newPets.toLowerCase());
+};
+/*function ourPets(anObject){
+  let newPets = {};
+  for(let animals in anObject){
+    for(let i=0; i < anObject[animals].length; i++) {
+      newPets[anObject[animals][i]] = animals;
+    }
+  }
+  return newPets;
+}
 
-let newPointStructure;
+console.log(ourPets(pets));*/
 
+// C. 2. Locate the newPointStructure object in the starter code and set it equal to transform(oldPointStructure).
+let newPointStructure = transform(oldPointStructure);
+console.log(transform(oldPointStructure));
+console.log(newPointStructure);
+// let newPointStructure; <- ORIGINAL LINE IN CODE
+
+// transform(oldPointStructure);
 /*
 function runProgram() {
 //  scorerPrompt();
