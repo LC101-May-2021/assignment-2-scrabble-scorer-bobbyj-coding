@@ -176,7 +176,12 @@ function scorerPrompt(yourChoice) {
     scrabbleScore();
     console.log("\n");
     return yourChoice; 
-  } //elseif   (yourChoice !== 0 && yourChoice !== 1 && yourChoice !== 2); {
+  } //else {
+    //return initialPrompt();
+ // } 
+    //console.log("Please try again.\n");
+    //initialPrompt(); 
+  //}  //(yourChoice !== 0 && yourChoice !== 1 && yourChoice !== 2); {
     //console.log("Please try again.\n");
     //initialPrompt(); 
 };
@@ -210,13 +215,9 @@ const scoringAlgorithms = [
 function transform(oldScoringObject) {
   let newlySwappedKeyValue = {};
   let lowerCaseKey = "";
-  //for(value of oldScrabbleScorer().key){
-  //  value = value.toLowerCase();
-  //}
   for(let eachScorePair in oldScoringObject){
     for(let i=0; i < oldScoringObject[eachScorePair].length; i++) {
-      newlySwappedKeyValue[oldScoringObject[eachScorePair][i]] = eachScorePair;
-      //console.log(newlySwappedKeyValue);
+      newlySwappedKeyValue[(oldScoringObject[eachScorePair][i]).toLowerCase()] = eachScorePair;
     }
   }
   return (newlySwappedKeyValue);
@@ -225,7 +226,6 @@ function transform(oldScoringObject) {
 // C. 2. Locate the newPointStructure object in the starter code and set it equal to transform(oldPointStructure).
 
 let newPointStructure = transform(oldPointStructure);
-//console.log(transform(oldPointStructure));
 console.log(newPointStructure);
 /*
 console.log(Object.keys(newPointStructure));
