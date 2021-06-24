@@ -195,8 +195,8 @@ function scorerPrompt(yourChoice) {
 };
 
 //console.log("Pick your poison.", scorerPrompt());
-//console.log(`Currently using : ${scoringAlgorithms[0].name}`);
-//console.log(`The score for the word ${userWord} is ${scoringAlgorithms[0].scorerFunction}`);
+console.log(`Currently using : ${scoringAlgorithms[0].name}`);
+console.log(`The score for the word ${userWord} is ${scoringAlgorithms[0].scorerFunction}`);
 // test ending here
 
 
@@ -206,13 +206,12 @@ function runProgram() {
   scorerPrompt();
   //console.log(`Currently using : ${scoringAlgorithms[0].name}`);
 	//console.log(`The score for the word ${userWord} is ${scoringAlgorithms[0].scoreFunction(userWord)}`);
-  runProgram();
+//  runProgram();
 
-//}
+}
 
 // Don't write any code below this line //
 // And don't change these or your program will not run as expected //
-
 module.exports = {
    initialPrompt: initialPrompt,
    transform: transform,
