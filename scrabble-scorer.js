@@ -12,6 +12,19 @@ const oldPointStructure = {
   10: ['Q', 'Z']
 };
 
+function transform(oldScoringObject) {
+  let newlySwappedKeyValue = {};
+  let lowerCaseKey = "";
+  for(let eachScorePair in oldScoringObject){
+    for(let i=0; i < oldScoringObject[eachScorePair].length; i++) {
+      newlySwappedKeyValue[(oldScoringObject[eachScorePair][i]).toLowerCase()] = eachScorePair;
+    }
+  }
+  return (newlySwappedKeyValue);
+};
+
+const newPointStructure = transform(oldPointStructure);
+
 const simplePointStructure = {
   1: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 };
@@ -21,31 +34,14 @@ const vowelPointStructure = {
   3: ['A', 'E', 'I', 'O', 'U']
 };
 
+let userWord = ""; // This was the key! By declaring this empty variable, globally, at start of program, I was able to assign the user's word (value) from within my local initialPrompt() function and could use it throughout all functions ... this caused hours of grief, but was a hard lesson learned!
+let scoringAlgorithms = [];
+
 function initialPrompt() {
    let word = input.question("Let's play some Scrabble! \n\nEnter a word to score: ");
+   userWord = word;
    return word;
 }; 
-
-let userWord = initialPrompt(); 
-
-const scoringAlgorithms = [
-  {
-    name: "Simple Score",
-    description: "Each letter is worth 1 point.",
-    scorerFunction: simpleScrabbleScorer(userWord),
-}, 
-  {
-    name: "Bonus Vowels",
-    description: "Vowels are 3 pts, consonants are 1 pt.",
-    scorerFunction: vowelScrabbleScorer(userWord),
-},
-  {
-    name: "Scrabble",
-    description: "The traditional scoring algorithm.",
-    //scorerFunction: scrabbleScore(userWord),
-    scorerFunction: oldScrabbleScorer(userWord),
-  }
-];
 
 function oldScrabbleScorer(word) {
 	word = word.toUpperCase();
@@ -67,6 +63,23 @@ function oldScrabbleScorer(word) {
   console.log(`Total Points for '${word}': ${scoreTotal}`)    
 	return letterPoints;
  }
+
+function oldScrabbleScoreTotal(word) {
+  word = word.toUpperCase();
+  let scoreTotal = 0;
+	let letterPoints = "";
+ 
+	for (let i = 0; i < word.length; i++) { 
+	  for (const pointValue in oldPointStructure) { 
+		 if (oldPointStructure[pointValue].includes(word[i])) {
+			letterPoints += `Points for '${word[i]}': ${pointValue}\n`
+      scoreTotal = scoreTotal + Number(pointValue);      
+		 } 
+	  }
+	}
+  console.log(`Total Points for '${word}': ${scoreTotal}`)    
+	return scoreTotal;
+}
 
 function simpleScrabbleScorer(anotherWord) {
   anotherWord = anotherWord.toUpperCase();
@@ -117,57 +130,12 @@ function vowelBonusScore() {
   return vowelScrabbleScorer(userWord);
 }
 
-function transform(oldScoringObject) {
-  let newlySwappedKeyValue = {};
-  let lowerCaseKey = "";
-  for(let eachScorePair in oldScoringObject){
-    for(let i=0; i < oldScoringObject[eachScorePair].length; i++) {
-      newlySwappedKeyValue[(oldScoringObject[eachScorePair][i]).toLowerCase()] = eachScorePair;
-    }
-  }
-  return (newlySwappedKeyValue);
-};
-
-const newPointStructure = transform(oldPointStructure);
-/*
-// OLD VERSION OF scrabbleScore()
+// scrabbleScore() that uses template literals, array/object and function calls
 function scrabbleScore() {
-  return oldScrabbleScorer(userWord);
-}; 
-*/
-
-// ANOTHER TEST OF scrabbleScore()
-function scrabbleScore() {
-  console.log(`Currently using : ${scoringAlgorithms[0].name}`);
-	console.log(`The score for the word ${userWord} is ${oldScrabbleScorer(userWord).scoreTotal}`);
-//  return scrabbleScore();
+  console.log(`Currently using : ${scoringAlgorithms[2].name}`);
+	console.log(`The score for your word, ${userWord}, is ${oldScrabbleScoreTotal(userWord)}!`);
 }
-/*
-// NEW VERSION
-function scrabbleScore(word) {
-//    function oldScrabbleScorer(word) {
-	word = word.toUpperCase();
-  let scoreTotal = 0;
-	let letterPoints = "";
- 
-	for (let i = 0; i < word.length; i++) {
- 
-	  for (const pointValue in oldPointStructure) {
- 
-		 if (oldPointStructure[pointValue].includes(word[i])) {
-			letterPoints += `Points for '${word[i]}': ${pointValue}\n`
-      scoreTotal = scoreTotal + Number(pointValue);      
-		 }
- 
-	  }
-	}
-  console.log(letterPoints);
-//  console.log("algorithm name: ", scoringAlgorithms[2].name);
-console.log("scorerFunction result: ", scoringAlgorithms[2].scorerFunction(word));
-  console.log(`Total Points for '${word}': ${scoreTotal}`)    
-	return letterPoints;
-};
-*/
+
 function scorerPrompt(yourChoice) {
   console.log("Which scoring algorithm would you like to use?\n\n0 - Simple:  One point per character\n1 - Vowel Bonus:  Vowels are worth 3 points\n2 - Scrabble:  Uses Scrabble point system\n");
   yourChoice = input.question("Please choose 0, 1 or 2: ");
@@ -184,29 +152,33 @@ function scorerPrompt(yourChoice) {
     scrabbleScore();
     console.log("\n");
     return yourChoice; 
-  } //else {
-    //return initialPrompt();
- // } 
-    //console.log("Please try again.\n");
-    //initialPrompt(); 
-  //}  //(yourChoice !== 0 && yourChoice !== 1 && yourChoice !== 2); {
-    //console.log("Please try again.\n");
-    //initialPrompt(); 
+  } 
 };
 
-//console.log("Pick your poison.", scorerPrompt());
-console.log(`Currently using : ${scoringAlgorithms[0].name}`);
-console.log(`The score for the word ${userWord} is ${scoringAlgorithms[0].scorerFunction}`);
-// test ending here
+scoringAlgorithms = [
+  {
+    name: "Simple Score",
+    description: "Each letter is worth 1 point.",
+//    scorerFunction: simpleScrabbleScorer(userWord),
+}, 
+  {
+    name: "Bonus Vowels",
+    description: "Vowels are 3 pts, consonants are 1 pt.",
+//    scorerFunction: vowelScrabbleScorer(userWord),
+},
+  {
+    name: "Scrabble",
+    description: "The traditional scoring algorithm.",
+//    scorerFunction: scrabbleScore(userWord),
+//    scorerFunction: oldScrabbleScorer(userWord),
+  }
+];
 
 
 function runProgram() {
   initialPrompt();
-  let userWord = initialPrompt();
   scorerPrompt();
-  //console.log(`Currently using : ${scoringAlgorithms[0].name}`);
-	//console.log(`The score for the word ${userWord} is ${scoringAlgorithms[0].scoreFunction(userWord)}`);
-//  runProgram();
+  runProgram();
 
 }
 
